@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Головна сторінка</title>
+    <title>Главная страница</title>
 </head>
 <body>
-    <h1>Головна сторінка</h1>
-    <img id="receivedImage" src="" alt="Зображення з камери" style="max-width: 100%; height: auto;" />
+    <h1>Главная страница</h1>
+    <img id="receivedImage" src="" alt="Изображение с камеры" style="max-width: 100%; height: auto;" />
 
     <script>
         const { ipcRenderer } = require('electron');
 
-        // Отримання зображення
+        // Получаем изображение от камеры и устанавливаем его в тег <img>
         ipcRenderer.on('receiveImage', (event, imgData) => {
             const imgElement = document.getElementById('receivedImage');
             imgElement.src = imgData;
