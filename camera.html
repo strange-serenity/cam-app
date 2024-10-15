@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Камера</title>
+</head>
+<body>
+    <h1>Камера</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="snap">Зробити знімок</button>
+    <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const snapButton = document.getElementById('snap');
+
+        // Запуск камери
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => {
+                console.error("Помилка доступу до камери: ", err);
+            });
+
+        // Зробити знімок
+        snapButton.addEventListener('click', () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imgData = canvas.toDataURL('image/png');
+
+            // Передача знімка на основний екран
+            window.opener.ipcRenderer.send('sendImage', imgData);
+        });
+    </script>
+</body>
+</html>
